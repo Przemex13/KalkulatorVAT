@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main extends JFrame{
@@ -22,6 +24,8 @@ public class Main extends JFrame{
     private String xxx;
     private String aaa;
 
+    List contain = new ArrayList<>();
+
 
 
 
@@ -34,7 +38,7 @@ public class Main extends JFrame{
         setVisible(true);
 
         setContentPane(mainPanel);
-
+// listeners
         textField1.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -108,18 +112,24 @@ public class Main extends JFrame{
         });
 
 
-
-
-
-
-
-
     }
     private boolean isFigure (char element){
         if (element >= '0' && element <= '9')
             return true;
 
         return false;
+    }
+
+    private static Double roundNumberTwoDecimals (double number){
+        number *= 100;
+        number = Math.round(number);
+        number /= 100;
+
+        return number;
+    }
+    private static boolean ifNumberIsRounded (double number){
+
+        return (roundNumberTwoDecimals(number) == number);
     }
 
 
