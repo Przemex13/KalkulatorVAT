@@ -19,6 +19,8 @@ public class Main extends JFrame{
     private double grosValue;
 
     private String zzz;
+    private String xxx;
+    private String aaa;
 
 
 
@@ -56,6 +58,56 @@ public class Main extends JFrame{
 
             }
         });
+
+        textField2.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                System.out.println("zmykam!");
+                vatTax = Integer.parseInt(xxx);
+                System.out.println(vatTax);
+
+            }
+        });
+
+        textField2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+                if (!isFigure(e.getKeyChar())) e.consume();
+                xxx = textField2.getText() + e.getKeyChar();
+
+            }
+        });
+
+        textField3.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                System.out.println("zmykam!");
+                grosValue = Double.parseDouble(aaa);
+                System.out.println(netValue);
+
+            }
+        });
+
+        textField3.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+                if (!isFigure(e.getKeyChar())) e.consume();
+                aaa = textField3.getText() + e.getKeyChar();
+
+            }
+        });
+
+
 
 
 
