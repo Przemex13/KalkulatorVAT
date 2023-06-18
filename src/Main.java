@@ -38,23 +38,13 @@ public class Main extends JFrame{
 
         setContentPane(mainPanel);
 // listeners
-        netValueTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
 
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-
-
-
-            }
-        });
 
         netValueTextField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-
+            public void keyPressed(KeyEvent e) {
+                netValueDisplayString = netValueTextField.getText() + e.getKeyChar();
+                System.out.println(netValueDisplayString);
 
             }
         });
