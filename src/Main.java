@@ -1,15 +1,14 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Main extends JFrame{
     private JPanel mainPanel;
     private JLabel kalkulatorProcentowPanel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
+    private JTextField netValueTextField;
+    private JTextField vatTextField;
+    private JTextField grosValueTextField;
     private JButton obliczButton;
     private JPanel panel;
 
@@ -20,9 +19,9 @@ public class Main extends JFrame{
     private int vatTax;
     private double grosValue;
 
-    private String zzz;
-    private String xxx;
-    private String aaa;
+    private String netValueDisplayString;
+    private String vatTaxDisplayString;
+    private String grosValueDisplayString;
 
     List contain = new ArrayList<>();
 
@@ -39,77 +38,102 @@ public class Main extends JFrame{
 
         setContentPane(mainPanel);
 // listeners
-        textField1.addFocusListener(new FocusListener() {
+        netValueTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
 
             }
             @Override
             public void focusLost(FocusEvent e) {
-                System.out.println("zmykam!");
-                netValue = Double.parseDouble(zzz);
-                System.out.println(netValue);
+
+
 
             }
         });
 
-        textField1.addKeyListener(new KeyAdapter() {
+        netValueTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
 
                 if (!isFigure(e.getKeyChar())) e.consume();
-                zzz = textField1.getText() + e.getKeyChar();
-
+                netValueDisplayString = netValueTextField.getText() + e.getKeyChar();
+                if (!netValueTextField.getText().isEmpty()) netValue = Double.parseDouble(netValueDisplayString);
+                System.out.println(netValue);
             }
         });
 
-        textField2.addFocusListener(new FocusListener() {
+        vatTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
 
             }
             @Override
             public void focusLost(FocusEvent e) {
-                System.out.println("zmykam!");
-                vatTax = Integer.parseInt(xxx);
+
+
+            }
+        });
+
+        vatTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+                if (!isFigure(e.getKeyChar())) e.consume();
+                vatTaxDisplayString = vatTextField.getText() + e.getKeyChar();
+                if (!vatTextField.getText().isEmpty()) vatTax = Integer.parseInt(vatTaxDisplayString);
                 System.out.println(vatTax);
 
             }
         });
 
-        textField2.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-                if (!isFigure(e.getKeyChar())) e.consume();
-                xxx = textField2.getText() + e.getKeyChar();
-
-            }
-        });
-
-        textField3.addFocusListener(new FocusListener() {
+        grosValueTextField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
 
             }
             @Override
             public void focusLost(FocusEvent e) {
-                System.out.println("zmykam!");
-                grosValue = Double.parseDouble(aaa);
-                System.out.println(netValue);
+
+
+
+
+
+
+
 
             }
         });
 
-        textField3.addKeyListener(new KeyAdapter() {
+        grosValueTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
 
                 if (!isFigure(e.getKeyChar())) e.consume();
-                aaa = textField3.getText() + e.getKeyChar();
+                grosValueDisplayString = grosValueTextField.getText() + e.getKeyChar();
+                if (!grosValueTextField.getText().isEmpty()) grosValue = Double.parseDouble(grosValueDisplayString);
+                System.out.println(grosValue);
 
             }
         });
+
+        obliczButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(netValueTextField.getText().isEmpty());
+                System.out.println(vatTextField.getText().isEmpty());
+                System.out.println(grosValueTextField.getText().isEmpty());
+                System.out.println("===========================================");
+                System.out.println("net value :" + netValue);
+                System.out.println("vat value :" + vatTax);
+                System.out.println("gross value :" + grosValue);
+
+
+            }
+        });
+
+        System.out.println(netValueTextField.getText().isEmpty());
+        System.out.println(vatTextField.getText().isEmpty());
+        System.out.println(grosValueTextField.getText().isEmpty());
 
 
     }
