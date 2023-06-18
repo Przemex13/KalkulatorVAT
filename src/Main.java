@@ -42,8 +42,12 @@ public class Main extends JFrame{
 
         netValueTextField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                netValueDisplayString = netValueTextField.getText() + e.getKeyChar();
+            public void keyTyped(KeyEvent e) {
+                char pomocniczy =' ';
+
+                if (isFigureOrComa(e.getKeyChar())) pomocniczy = e.getKeyChar();
+                else e.consume();
+                netValueDisplayString = netValueTextField.getText() + pomocniczy;
                 System.out.println(netValueDisplayString);
 
             }
@@ -97,9 +101,9 @@ public class Main extends JFrame{
                 System.out.println(vatTextField.getText().isEmpty());
                 System.out.println(grosValueTextField.getText().isEmpty());
                 System.out.println("===========================================");
-                System.out.println("net value :" + netValue);
-                System.out.println("vat value :" + vatTax);
-                System.out.println("gross value :" + grosValue);
+                System.out.println("net value :" + netValueDisplayString);
+                System.out.println("vat value :" + vatTaxDisplayString);
+                System.out.println("gross value :" + grosValueDisplayString);
 
 
             }
@@ -109,8 +113,8 @@ public class Main extends JFrame{
 
 
     }
-    private boolean isFigure (char element){
-        if (element >= '0' && element <= '9')
+    private boolean isFigureOrComa (char element){
+        if (element >= '0' && element <= '9' || element == '.')
             return true;
 
         return false;
