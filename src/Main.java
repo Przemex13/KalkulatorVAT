@@ -55,10 +55,7 @@ public class Main extends JFrame{
             @Override
             public void keyTyped(KeyEvent e) {
 
-                if (!isFigure(e.getKeyChar())) e.consume();
-                netValueDisplayString = netValueTextField.getText() + e.getKeyChar();
-                if (!netValueTextField.getText().isEmpty()) netValue = Double.parseDouble(netValueDisplayString);
-                System.out.println(netValue);
+
             }
         });
 
@@ -78,10 +75,7 @@ public class Main extends JFrame{
             @Override
             public void keyTyped(KeyEvent e) {
 
-                if (!isFigure(e.getKeyChar())) e.consume();
-                vatTaxDisplayString = vatTextField.getText() + e.getKeyChar();
-                if (!vatTextField.getText().isEmpty()) vatTax = Integer.parseInt(vatTaxDisplayString);
-                System.out.println(vatTax);
+
 
             }
         });
@@ -94,13 +88,6 @@ public class Main extends JFrame{
             @Override
             public void focusLost(FocusEvent e) {
 
-
-
-
-
-
-
-
             }
         });
 
@@ -108,10 +95,7 @@ public class Main extends JFrame{
             @Override
             public void keyTyped(KeyEvent e) {
 
-                if (!isFigure(e.getKeyChar())) e.consume();
-                grosValueDisplayString = grosValueTextField.getText() + e.getKeyChar();
-                if (!grosValueTextField.getText().isEmpty()) grosValue = Double.parseDouble(grosValueDisplayString);
-                System.out.println(grosValue);
+
 
             }
         });
@@ -131,9 +115,7 @@ public class Main extends JFrame{
             }
         });
 
-        System.out.println(netValueTextField.getText().isEmpty());
-        System.out.println(vatTextField.getText().isEmpty());
-        System.out.println(grosValueTextField.getText().isEmpty());
+
 
 
     }
