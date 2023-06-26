@@ -16,14 +16,14 @@ public class Main extends JFrame{
 //    moje zmienne które stworzyłem
 
     private double netValue;
-    private int vatTax;
+    private double vatTax;
     private double grosValue;
 
     private String netValueDisplayString;
     private String vatTaxDisplayString;
     private String grosValueDisplayString;
 
-    List contain = new ArrayList<>();
+    boolean[]isTexdFieldInUse = new boolean[3];
 
 
 
@@ -52,8 +52,6 @@ public class Main extends JFrame{
                 }
 
                 netValueDisplayString = netValueTextField.getText() + pomocniczyNetValue;
-                System.out.println(netValueDisplayString);
-
 
             }
         });
@@ -78,6 +76,8 @@ public class Main extends JFrame{
                     if(Double.parseDouble(netValueTextField.getText()) == 0) netValueTextField.setText("0.00");
                 }
 
+                netValueTextField.setEnabled(false);
+
 
             }
         });
@@ -88,6 +88,40 @@ public class Main extends JFrame{
             @Override
             public void keyTyped(KeyEvent e) {
 
+                char pomocniczyVatTax =' ';
+
+                if (isCharValid(e.getKeyChar()) && isContainComa(vatTextField, e.getKeyChar())){
+                    pomocniczyVatTax = e.getKeyChar();
+                }else {
+                    e.consume();
+                }
+
+                vatTaxDisplayString = vatTextField.getText() + pomocniczyVatTax;
+            }
+        });
+
+        vatTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+
+
+                if (vatTextField.getText().isEmpty()){
+                    vatTaxDisplayString ="0";
+                    vatTextField.setText("0.00");
+                    if(vatTextField.getText().isEmpty()) vatTextField.setText("0.00");
+
+                }
+                else{
+                    vatTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(vatTaxDisplayString))));
+                    vatTaxDisplayString = vatTextField.getText();
+                    if(Double.parseDouble(vatTextField.getText()) == 0) vatTextField.setText("0.00");
+                }
+
             }
         });
 
@@ -97,7 +131,40 @@ public class Main extends JFrame{
             @Override
             public void keyTyped(KeyEvent e) {
 
+                char pomocniczyGrosValue =' ';
 
+                if (isCharValid(e.getKeyChar())&& isContainComa(grosValueTextField, e.getKeyChar())){
+                    pomocniczyGrosValue = e.getKeyChar();
+                }else {
+                    e.consume();
+                }
+
+                grosValueDisplayString = grosValueTextField.getText() + pomocniczyGrosValue;
+
+
+            }
+        });
+
+        grosValueTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+
+                if (grosValueTextField.getText().isEmpty()){
+                    grosValueDisplayString ="0";
+                    grosValueTextField.setText("0.00");
+                    if(grosValueTextField.getText().isEmpty()) grosValueTextField.setText("0.00");
+
+                }
+                else{
+                    grosValueTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(grosValueDisplayString))));
+                    grosValueDisplayString = grosValueTextField.getText();
+                    if(Double.parseDouble(grosValueTextField.getText()) == 0) grosValueTextField.setText("0.00");
+                }
 
             }
         });
@@ -149,8 +216,8 @@ public class Main extends JFrame{
 
             boolean isOK = true;
 
-            if (pole.getText().contains( new StringBuffer('.')) && wpis == '.') isOK = false;
-
+            if (pole.getText().indexOf('.') != -1 && wpis == '.') isOK = false;
+            if(pole.getText().isEmpty()) isOK = true;
             return isOK ;
 
 
