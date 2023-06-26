@@ -45,9 +45,8 @@ public class Main extends JFrame{
             public void keyTyped(KeyEvent e) {
                 char pomocniczyNetValue =' ';
 
-                if (isCharValid(e.getKeyChar())) {
+                if (isCharValid(e.getKeyChar())&& isContainComa(netValueTextField, e.getKeyChar())){
                     pomocniczyNetValue = e.getKeyChar();
-                    if (e.getKeyChar() == ',') pomocniczyNetValue = '.';
                 }else {
                     e.consume();
                 }
@@ -58,42 +57,41 @@ public class Main extends JFrame{
 
             }
         });
+        netValueTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+
+                if (netValueTextField.getText().isEmpty()){
+                    netValueDisplayString ="0";
+                    netValueTextField.setText("0.00");
+                    if(netValueTextField.getText().isEmpty()) netValueTextField.setText("0.00");
+
+                }
+                else{
+                    netValueTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(netValueDisplayString))));
+                    netValueDisplayString = netValueTextField.getText();
+                    if(Double.parseDouble(netValueTextField.getText()) == 0) netValueTextField.setText("0.00");
+                }
+
+
+            }
+        });
 
 
 
         vatTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                char pomocniczyVat =' ';
-
-                if (isCharValid(e.getKeyChar()) && isComaCorrect(vatTextField.getText(), e.getKeyChar())) {
-                    pomocniczyVat = e.getKeyChar();
-                    if (e.getKeyChar() == ',') pomocniczyVat = '.';
-                }else {
-                    e.consume();
-                }
-
-
-
-                vatTaxDisplayString = vatTextField.getText() + pomocniczyVat;
-
-
-
-                System.out.println(isDecimalValid(vatTaxDisplayString));
 
             }
         });
 
-        grosValueTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
 
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-
-            }
-        });
 
         grosValueTextField.addKeyListener(new KeyAdapter() {
             @Override
@@ -116,6 +114,7 @@ public class Main extends JFrame{
                 System.out.println("gross value :" + grosValueDisplayString);
 
 
+
             }
         });
 
@@ -126,30 +125,34 @@ public class Main extends JFrame{
     private boolean isCharValid (char element){
 
         return (element >= '0' && element <= '9' ||
-                element == '.'||
-                element == ',')
+                element == '.')
                 ? true : false;
     }
 
-    private boolean isCentCorrect (String str) {
+    private static boolean isCentCorrect (String str) {
 
-        return true;
-    }
-    private static boolean isComaCorrect(String str, char badany){
-        char[]strArray = str.toCharArray();
-        boolean isComaGood = true;
+        boolean isCorrect = true;
+        double doubleRowFigure = 0;
+        double doubleRoundedFigure = 0;
 
-        if(badany == ','||badany == '.'){
-            for (int i = 0; i < str.length(); i++){
-                if(strArray[i] == '.'|| strArray[i] == ',') {
-                    isComaGood = false;
-                    break;
-                }
-            }
+        if (str.isEmpty()) {
+            return isCorrect;
         }else{
+            doubleRowFigure = Double.parseDouble(str);
+            doubleRoundedFigure = roundNumberTwoDecimals(doubleRowFigure);}
 
-        }
-        return isComaGood;
+            isCorrect = (doubleRowFigure == doubleRoundedFigure);
+
+        return isCorrect || str.isEmpty();
+    }
+    private static boolean isContainComa(JTextField pole, char wpis){
+
+            boolean isOK = true;
+
+            if (pole.getText().contains( new StringBuffer('.')) && wpis == '.') isOK = false;
+
+            return isOK ;
+
 
     }
 //    cos sie jebie w metodzie; DZIELIC !!
@@ -184,10 +187,6 @@ public class Main extends JFrame{
 
     public static void main(String[] args) {
         new Main();
-
-        String string;
-        System.out.println(roundNumberTwoDecimals(123.43344));
-
 
 
 
