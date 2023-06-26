@@ -43,33 +43,43 @@ public class Main extends JFrame{
         netValueTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                char pomocniczy =' ';
+                char pomocniczyNetValue =' ';
 
-                if (isFigureOrComa(e.getKeyChar())) pomocniczy = e.getKeyChar();
-                else e.consume();
-                netValueDisplayString = netValueTextField.getText() + pomocniczy;
+                if (isCharValid(e.getKeyChar())) {
+                    pomocniczyNetValue = e.getKeyChar();
+                    if (e.getKeyChar() == ',') pomocniczyNetValue = '.';
+                }else {
+                    e.consume();
+                }
+
+                netValueDisplayString = netValueTextField.getText() + pomocniczyNetValue;
                 System.out.println(netValueDisplayString);
 
-            }
-        });
-
-        vatTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-
 
             }
         });
+
+
 
         vatTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
+                char pomocniczyVat =' ';
+
+                if (isCharValid(e.getKeyChar()) && isComaCorrect(vatTextField.getText(), e.getKeyChar())) {
+                    pomocniczyVat = e.getKeyChar();
+                    if (e.getKeyChar() == ',') pomocniczyVat = '.';
+                }else {
+                    e.consume();
+                }
 
 
+
+                vatTaxDisplayString = vatTextField.getText() + pomocniczyVat;
+
+
+
+                System.out.println(isDecimalValid(vatTaxDisplayString));
 
             }
         });
@@ -113,11 +123,48 @@ public class Main extends JFrame{
 
 
     }
-    private boolean isFigureOrComa (char element){
-        if (element >= '0' && element <= '9' || element == '.')
-            return true;
+    private boolean isCharValid (char element){
 
-        return false;
+        return (element >= '0' && element <= '9' ||
+                element == '.'||
+                element == ',')
+                ? true : false;
+    }
+
+    private boolean isCentCorrect (String str) {
+
+        return true;
+    }
+    private static boolean isComaCorrect(String str, char badany){
+        char[]strArray = str.toCharArray();
+        boolean isComaGood = true;
+
+        if(badany == ','||badany == '.'){
+            for (int i = 0; i < str.length(); i++){
+                if(strArray[i] == '.'|| strArray[i] == ',') {
+                    isComaGood = false;
+                    break;
+                }
+            }
+        }else{
+
+        }
+        return isComaGood;
+
+    }
+//    cos sie jebie w metodzie; DZIELIC !!
+    private static boolean isDecimalValid (String str){
+//        if (str.isEmpty()) str ="0";
+//        if (str.length() == 0) {
+//            System.out.println(str.length() - str.indexOf('.'));
+//            return (str.isEmpty()? true : str.indexOf('.') +3 >= str.length());
+//        }
+//        return true
+
+        Double doubleFigure = Double.parseDouble(str);
+        int intFigure = (int) Math.round(doubleFigure);
+
+    return true;
     }
 
     private static Double roundNumberTwoDecimals (double number){
@@ -127,14 +174,24 @@ public class Main extends JFrame{
 
         return number;
     }
-    private static boolean ifNumberIsRounded (double number){
+    private static boolean isNumberRounded (double number){
 
         return (roundNumberTwoDecimals(number) == number);
     }
 
 
 
+
     public static void main(String[] args) {
         new Main();
+
+        String string;
+        System.out.println(roundNumberTwoDecimals(123.43344));
+
+
+
+
+
+
     }
 }
