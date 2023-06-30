@@ -54,7 +54,7 @@
               <text value="Wartość brutto"/>
             </properties>
           </component>
-          <component id="eb6f2" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+          <component id="eb6f2" class="javax.swing.JTextField" binding="vatTextField">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -62,7 +62,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="1839d" class="javax.swing.JTextField" binding="textField3" default-binding="true">
+          <component id="1839d" class="javax.swing.JTextField" binding="grosValueTextField">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -70,13 +70,15 @@
             </constraints>
             <properties/>
           </component>
-          <component id="3305e" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="3305e" class="javax.swing.JTextField" binding="netValueTextField">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <text value=""/>
+            </properties>
           </component>
           <component id="7c6ba" class="javax.swing.JButton" binding="obliczButton">
             <constraints>
