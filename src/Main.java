@@ -14,12 +14,6 @@ public class Main extends JFrame{
     private JPanel panel;
 
 
-//    moje zmienne które stworzyłem
-
-    private double netValue;
-    private double vatTax;
-    private double grosValue;
-
     private String netValueDisplayString;
     private String vatTaxDisplayString;
     private String grosValueDisplayString;
@@ -55,15 +49,11 @@ public class Main extends JFrame{
                 netValueDisplayString = netValueTextField.getText() + pomocniczyNetValue;
                 if (Double.parseDouble(netValueDisplayString) == 0) isTexdFieldInUse[0] = false;
                 else isTexdFieldInUse[0] = true;
-
-
             }
         });
         netValueTextField.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-
-            }
+            public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
@@ -72,8 +62,6 @@ public class Main extends JFrame{
                     netValueDisplayString ="0";
                     netValueTextField.setText("0.00");
                     if(netValueTextField.getText().isEmpty()) netValueTextField.setText("0.00");
-                    System.out.println("float if positive");
-
                 }
                 else{
                     netValueTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(netValueDisplayString))));
@@ -84,12 +72,7 @@ public class Main extends JFrame{
                         nowy += "0";
                         netValueTextField.setText(nowy);
                     }
-
                 }
-
-
-
-
             }
         });
 
@@ -106,16 +89,13 @@ public class Main extends JFrame{
                 }else {
                     e.consume();
                 }
-
                 vatTaxDisplayString = vatTextField.getText() + pomocniczyVatTax;
             }
         });
 
         vatTextField.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-
-            }
+            public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
@@ -131,8 +111,12 @@ public class Main extends JFrame{
                     vatTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(vatTaxDisplayString))));
                     vatTaxDisplayString = vatTextField.getText();
                     if(Double.parseDouble(vatTextField.getText()) == 0) vatTextField.setText("0.00");
+                    if (Double.parseDouble(vatTextField.getText()) * 100 % 10 == 0 && !vatTextField.getText().equals("0.00") ){
+                        String nowy = vatTextField.getText();
+                        nowy += "0";
+                        vatTextField.setText(nowy);
+                    }
                 }
-
             }
         });
 
@@ -149,18 +133,13 @@ public class Main extends JFrame{
                 }else {
                     e.consume();
                 }
-
                 grosValueDisplayString = grosValueTextField.getText() + pomocniczyGrosValue;
-
-
             }
         });
 
         grosValueTextField.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-
-            }
+            public void focusGained(FocusEvent e) {}
 
             @Override
             public void focusLost(FocusEvent e) {
@@ -169,43 +148,30 @@ public class Main extends JFrame{
                     grosValueDisplayString ="0";
                     grosValueTextField.setText("0.00");
                     if(grosValueTextField.getText().isEmpty()) grosValueTextField.setText("0.00");
-
                 }
                 else{
                     grosValueTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(grosValueDisplayString))));
                     grosValueDisplayString = grosValueTextField.getText();
                     if(Double.parseDouble(grosValueTextField.getText()) == 0) grosValueTextField.setText("0.00");
+                    if (Double.parseDouble(grosValueTextField.getText()) * 100 % 10 == 0 && !grosValueTextField.getText().equals("0.00") ){
+                        String nowy = grosValueTextField.getText();
+                        nowy += "0";
+                        grosValueTextField.setText(nowy);
+                    }
                 }
-
             }
         });
 
         obliczButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (!netValueTextField.getText().isEmpty() && !vatTextField.getText().isEmpty() && !grosValueTextField.getText().isEmpty()){
-                    JDialog dialog = new JDialog(Main.this);
-                    dialog.setTitle("Chujnia");
-                    dialog.setVisible(true);
-                    JLabel label = new JLabel("Jedno okno musi pozostac wolne");
-                    dialog.add(label);
-                    JButton buttonOK = new JButton("OK");
-                    dialog.add(buttonOK);
-                    dialog.setSize(400,300);
-                }
+
                 System.out.println("===========================================");
                 System.out.println("net value :" + netValueDisplayString);
                 System.out.println("vat value :" + vatTaxDisplayString);
                 System.out.println("gross value :" + grosValueDisplayString);
-
-
-
             }
         });
-
-
-
-
     }
     private static boolean controlWhichWindowToFreeze(boolean [] tablica){
 
@@ -232,22 +198,7 @@ public class Main extends JFrame{
                 ? true : false;
     }
 
-    private static boolean isCentCorrect (String str) {
 
-        boolean isCorrect = true;
-        double doubleRowFigure = 0;
-        double doubleRoundedFigure = 0;
-
-        if (str.isEmpty()) {
-            return isCorrect;
-        }else{
-            doubleRowFigure = Double.parseDouble(str);
-            doubleRoundedFigure = roundNumberTwoDecimals(doubleRowFigure);}
-
-            isCorrect = (doubleRowFigure == doubleRoundedFigure);
-
-        return isCorrect || str.isEmpty();
-    }
     private static boolean isContainComa(JTextField pole, char wpis){
 
             boolean isOK = true;
@@ -258,20 +209,7 @@ public class Main extends JFrame{
 
 
     }
-//    cos sie jebie w metodzie; DZIELIC !!
-    private static boolean isDecimalValid (String str){
-//        if (str.isEmpty()) str ="0";
-//        if (str.length() == 0) {
-//            System.out.println(str.length() - str.indexOf('.'));
-//            return (str.isEmpty()? true : str.indexOf('.') +3 >= str.length());
-//        }
-//        return true
 
-        Double doubleFigure = Double.parseDouble(str);
-        int intFigure = (int) Math.round(doubleFigure);
-
-    return true;
-    }
 
     private static Double roundNumberTwoDecimals (double number){
         number *= 100;
@@ -282,22 +220,8 @@ public class Main extends JFrame{
 
         return number;
     }
-    private static boolean isNumberRounded (double number){
-
-        return (roundNumberTwoDecimals(number) == number);
-    }
-
-
-
-
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         Main main = new Main();
-
-        double zmienna = 324.3;
-
-        System.out.println(roundNumberTwoDecimals(zmienna));
-
-
 
     }
 }
