@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main extends JFrame{
@@ -23,7 +24,7 @@ public class Main extends JFrame{
     private String vatTaxDisplayString;
     private String grosValueDisplayString;
 
-    boolean[]isTexdFieldInUse = new boolean[3];
+    public static boolean[]isTexdFieldInUse = new boolean[3];
 
 
 
@@ -52,6 +53,9 @@ public class Main extends JFrame{
                 }
 
                 netValueDisplayString = netValueTextField.getText() + pomocniczyNetValue;
+                if (Double.parseDouble(netValueDisplayString) == 0) isTexdFieldInUse[0] = false;
+                else isTexdFieldInUse[0] = true;
+
 
             }
         });
@@ -68,15 +72,22 @@ public class Main extends JFrame{
                     netValueDisplayString ="0";
                     netValueTextField.setText("0.00");
                     if(netValueTextField.getText().isEmpty()) netValueTextField.setText("0.00");
+                    System.out.println("float if positive");
 
                 }
                 else{
                     netValueTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(netValueDisplayString))));
                     netValueDisplayString = netValueTextField.getText();
                     if(Double.parseDouble(netValueTextField.getText()) == 0) netValueTextField.setText("0.00");
+                    if (Double.parseDouble(netValueTextField.getText()) * 100 % 10 == 0 && !netValueTextField.getText().equals("0.00") ){
+                        String nowy = netValueTextField.getText();
+                        nowy += "0";
+                        netValueTextField.setText(nowy);
+                    }
+
                 }
 
-                netValueTextField.setEnabled(false);
+
 
 
             }
@@ -172,9 +183,16 @@ public class Main extends JFrame{
         obliczButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(netValueTextField.getText().isEmpty());
-                System.out.println(vatTextField.getText().isEmpty());
-                System.out.println(grosValueTextField.getText().isEmpty());
+                if (!netValueTextField.getText().isEmpty() && !vatTextField.getText().isEmpty() && !grosValueTextField.getText().isEmpty()){
+                    JDialog dialog = new JDialog(Main.this);
+                    dialog.setTitle("Chujnia");
+                    dialog.setVisible(true);
+                    JLabel label = new JLabel("Jedno okno musi pozostac wolne");
+                    dialog.add(label);
+                    JButton buttonOK = new JButton("OK");
+                    dialog.add(buttonOK);
+                    dialog.setSize(400,300);
+                }
                 System.out.println("===========================================");
                 System.out.println("net value :" + netValueDisplayString);
                 System.out.println("vat value :" + vatTaxDisplayString);
@@ -188,6 +206,24 @@ public class Main extends JFrame{
 
 
 
+    }
+    private static boolean controlWhichWindowToFreeze(boolean [] tablica){
+
+       int trueInt = 0;
+       int falseInt = 0;
+       int nrPusty = -1;
+       for (int i = 0; i < tablica.length; i ++){
+           if (tablica[i] == true) trueInt ++;
+           if (tablica[i] == false) falseInt ++;
+           if(trueInt == 2){
+               nrPusty = Arrays.asList(tablica).indexOf(false);
+
+               System.out.println(nrPusty);
+           }
+
+       }
+
+        return  false;
     }
     private boolean isCharValid (char element){
 
@@ -242,6 +278,8 @@ public class Main extends JFrame{
         number = Math.round(number);
         number /= 100;
 
+
+
         return number;
     }
     private static boolean isNumberRounded (double number){
@@ -253,9 +291,11 @@ public class Main extends JFrame{
 
 
     public static void main(String[] args) {
-        new Main();
+        Main main = new Main();
 
+        double zmienna = 324.3;
 
+        System.out.println(roundNumberTwoDecimals(zmienna));
 
 
 
