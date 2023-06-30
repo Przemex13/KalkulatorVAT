@@ -141,6 +141,12 @@ public class Main extends JFrame{
         obliczButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                CustomsJDialog dialog = new CustomsJDialog();
+                dialog.pack();
+                dialog.setVisible(true);
+                System.exit(0);
+
                 System.out.println("===========================================");
                 System.out.println("net value :" + netValueDisplayString);
                 System.out.println("vat value :" + vatTaxDisplayString);
