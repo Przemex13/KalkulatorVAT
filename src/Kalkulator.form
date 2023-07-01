@@ -27,7 +27,7 @@
             </constraints>
             <properties>
               <font name="Arial Black" size="26" style="0"/>
-              <text value="Kalulator Procentów"/>
+              <text value="Kalkulator Procentów"/>
             </properties>
           </component>
           <component id="3bdaf" class="javax.swing.JLabel">

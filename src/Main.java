@@ -32,8 +32,12 @@ public class Main extends JFrame{
                     e.consume();
                 }
                 netValueDisplayString = netValueTextField.getText() + pomocniczyNetValue;
-                if (Double.parseDouble(netValueDisplayString) == 0) isTexdFieldInUse[0] = false;
-                else isTexdFieldInUse[0] = true;
+
+                if (netValueDisplayString.isEmpty()) {
+                    isTexdFieldInUse[0] = false;
+                }else {
+                    isTexdFieldInUse[0] = true;
+                }
             }
         });
         netValueTextField.addFocusListener(new FocusListener() {
@@ -58,6 +62,8 @@ public class Main extends JFrame{
                         netValueTextField.setText(nowy);
                     }
                 }
+
+                System.out.println("focus lost");
             }
         });
 
@@ -121,7 +127,7 @@ public class Main extends JFrame{
             @Override
             public void focusLost(FocusEvent e) {
                 if (grosValueTextField.getText().isEmpty()){
-                    grosValueDisplayString ="0";
+                    grosValueDisplayString = "0";
                     grosValueTextField.setText("0.00");
                     if(grosValueTextField.getText().isEmpty()) grosValueTextField.setText("0.00");
                 }
@@ -145,7 +151,7 @@ public class Main extends JFrame{
                 CustomsJDialog dialog = new CustomsJDialog();
                 dialog.pack();
                 dialog.setVisible(true);
-                System.exit(0);
+
 
                 System.out.println("===========================================");
                 System.out.println("net value :" + netValueDisplayString);

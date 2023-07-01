@@ -42,7 +42,7 @@ public class CustomsJDialog extends JDialog {
 
     private void onOK() {
 
-        this.setVisible(false);
+       dispose();
 
     }
 
