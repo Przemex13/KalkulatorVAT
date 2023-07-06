@@ -1,15 +1,17 @@
 import javax.swing.*;
+import javax.swing.text.Caret;
 import java.awt.event.*;
 import java.util.Arrays;
 
 public class Main extends JFrame{
     private JPanel mainPanel;
     private JLabel kalkulatorProcentowPanel;
-    private JTextField netValueTextField;
-    private JTextField vatTextField;
-    private JTextField grosValueTextField;
+    JTextField netValueTextField;
+    JTextField vatTextField;
+    JTextField grosValueTextField;
     private JButton obliczButton;
     private JPanel panel;
+    private JButton clearButton;
     private String netValueDisplayString;
     private String vatTaxDisplayString;
     private String grosValueDisplayString;
@@ -148,9 +150,54 @@ public class Main extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                CustomsJDialog dialog = new CustomsJDialog();
-                dialog.pack();
-                dialog.setVisible(true);
+
+
+
+
+                if (!isTheFieldInUse(netValueTextField) && !isTheFieldInUse(vatTextField) && !isTheFieldInUse(grosValueTextField)){
+
+                    CustomsJDialog dialog = new CustomsJDialog();
+                    dialog.netValueMessage.setText( "Aby było możliwe policzenie podatku należy zostawić jedno pole puste.");
+                    dialog.pack();
+                    dialog.setVisible(true);
+                }
+                else{
+
+                    if(!isTheFieldInUse(netValueTextField)){
+                        double grosValue = Double.parseDouble(grosValueTextField.getText());
+                        double vat = Double.parseDouble(vatTextField.getText());
+                        double netValue;
+
+                        netValue = grosValue / ( 100 + vat);
+
+                        netValueTextField.setText(String.valueOf(netValue));
+
+
+
+                    }
+                    if (!isTheFieldInUse(vatTextField)){
+                        double grosValue = Double.parseDouble(grosValueTextField.getText());
+                        double vat;
+                        double netValue = Double.parseDouble(netValueTextField.getText());
+
+                        vat = (grosValue * 100 / netValue) - 100;
+
+                        vatTextField.setText(String.valueOf(vat));
+                    }
+
+                    if (!isTheFieldInUse(grosValueTextField)){
+                        double grosValue;
+                        double vat = Double.parseDouble(vatTextField.getText());
+                        double netValue = Double.parseDouble(netValueTextField.getText());
+
+                        grosValue = netValue * (1 +  vat / 100);
+
+                        grosValueTextField.setText(String.valueOf(grosValue));
+                    }
+                }
+
+
+
 
 
                 System.out.println("===========================================");
@@ -159,6 +206,29 @@ public class Main extends JFrame{
                 System.out.println("gross value :" + grosValueDisplayString);
             }
         });
+
+        clearButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                System.out.println("clear");
+                netValueTextField.setText("");
+                vatTextField.setText("");
+                grosValueTextField.setText("");
+                netValueTextField.requestFocus();
+
+
+            }
+        });
+    }
+    private static int whichFieldIsUnknown( Main glowneOkno){
+        if (isTheFieldInUse(glowneOkno.netValueTextField)) return 1;
+        if (isTheFieldInUse(glowneOkno.vatTextField)) return 2;
+        if (isTheFieldInUse(glowneOkno.grosValueTextField)) return 3;
+        return 4;
+    }
+    private static boolean isTheFieldInUse (JTextField pole){
+
+        return (!pole.getText().isEmpty() && !pole.getText().equals("0.00"));
     }
     private static boolean controlWhichWindowToFreeze(boolean [] tablica){
        int trueInt = 0;
@@ -192,5 +262,6 @@ public class Main extends JFrame{
     }
         public static void main(String[] args) {
         Main main = new Main();
+
     }
 }

@@ -5,7 +5,10 @@ public class CustomsJDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JLabel ContentTextField;
+    JLabel netValueMessage;
+    private JLabel vatTaxMessage;
+    private JLabel grosValueMessage;
+    private JLabel warningMessage;
 
     public CustomsJDialog() {
         setContentPane(contentPane);
