@@ -4,7 +4,7 @@ import java.awt.event.*;
 public class CustomsJDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
-    private JButton buttonCancel;
+
     JLabel netValueMessage;
     private JLabel vatTaxMessage;
     private JLabel grosValueMessage;
@@ -21,11 +21,7 @@ public class CustomsJDialog extends JDialog {
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

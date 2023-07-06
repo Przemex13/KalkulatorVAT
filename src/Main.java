@@ -22,6 +22,9 @@ public class Main extends JFrame{
         setSize(400, 230);
         setVisible(true);
         setContentPane(mainPanel);
+
+
+
 // listeners
         netValueTextField.addKeyListener(new KeyAdapter() {
             @Override
@@ -154,7 +157,8 @@ public class Main extends JFrame{
 
 
 
-                if (!isTheFieldInUse(netValueTextField) && !isTheFieldInUse(vatTextField) && !isTheFieldInUse(grosValueTextField)){
+                if ((!isTheFieldInUse(netValueTextField) && !isTheFieldInUse(vatTextField) && !isTheFieldInUse(grosValueTextField))||
+                        isTheFieldInUse(netValueTextField) && isTheFieldInUse(vatTextField) && isTheFieldInUse(grosValueTextField)){
 
                     CustomsJDialog dialog = new CustomsJDialog();
                     dialog.netValueMessage.setText( "Aby było możliwe policzenie podatku należy zostawić jedno pole puste.");
@@ -170,7 +174,7 @@ public class Main extends JFrame{
 
                         netValue = grosValue / ( 100 + vat);
 
-                        netValueTextField.setText(String.valueOf(netValue));
+                        netValueTextField.setText(String.valueOf(roundNumberTwoDecimals(netValue)));
 
 
 
@@ -182,7 +186,7 @@ public class Main extends JFrame{
 
                         vat = (grosValue * 100 / netValue) - 100;
 
-                        vatTextField.setText(String.valueOf(vat));
+                        vatTextField.setText(String.valueOf(roundNumberTwoDecimals(vat)));
                     }
 
                     if (!isTheFieldInUse(grosValueTextField)){
@@ -192,7 +196,7 @@ public class Main extends JFrame{
 
                         grosValue = netValue * (1 +  vat / 100);
 
-                        grosValueTextField.setText(String.valueOf(grosValue));
+                        grosValueTextField.setText(String.valueOf(roundNumberTwoDecimals(grosValue)));
                     }
                 }
 
@@ -215,6 +219,10 @@ public class Main extends JFrame{
                 vatTextField.setText("");
                 grosValueTextField.setText("");
                 netValueTextField.requestFocus();
+
+                netValueTextField.setText("");
+                vatTextField.setText("");
+                grosValueTextField.setText("");
 
 
             }
@@ -262,6 +270,7 @@ public class Main extends JFrame{
     }
         public static void main(String[] args) {
         Main main = new Main();
+
 
     }
 }
