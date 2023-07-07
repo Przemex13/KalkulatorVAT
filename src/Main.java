@@ -4,9 +4,9 @@ import java.awt.event.*;
 public class Main extends JFrame{
     private JPanel mainPanel;
     private JLabel kalkulatorProcentowPanel;
-    JTextField netValueTextField;
-    JTextField vatTextField;
-    JTextField grosValueTextField;
+    private JTextField netValueTextField;
+    private JTextField vatTextField;
+    private JTextField grosValueTextField;
     private JButton obliczButton;
     private JPanel panel;
     private JButton clearButton;
@@ -104,7 +104,7 @@ public class Main extends JFrame{
             }
         });
     }
-    static String focusLostService(JTextField pole){
+    private static String focusLostService(JTextField pole){
         String DisplayString;
 
         if (pole.getText().isEmpty()){
