@@ -54,14 +54,6 @@
               <text value="Wartość brutto"/>
             </properties>
           </component>
-          <component id="eb6f2" class="javax.swing.JTextField" binding="vatTextField">
-            <constraints>
-              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
           <component id="1839d" class="javax.swing.JTextField" binding="grosValueTextField">
             <constraints>
               <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -106,6 +98,14 @@
               </component>
             </children>
           </grid>
+          <component id="95ebe" class="javax.swing.JTextField" binding="vatTextField">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
         </children>
       </grid>
       <vspacer id="a3af7">
