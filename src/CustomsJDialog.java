@@ -6,9 +6,6 @@ public class CustomsJDialog extends JDialog {
     private JButton buttonOK;
 
     JLabel dialogMessage;
-    private JLabel vatTaxMessage;
-    private JLabel grosValueMessage;
-    private JLabel warningMessage;
 
     public CustomsJDialog() {
         setContentPane(contentPane);

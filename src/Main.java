@@ -63,13 +63,12 @@ public class Main extends JFrame{
                         double vat = Double.parseDouble(vatTextField.getText());
                         double netValue;
 
-                        netValue = grosValue / ( 100 + vat);
+                        netValue = grosValue / ( 100 + vat) * 100;
 
                         netValueTextField.setText(String.valueOf(roundNumberTwoDecimals(netValue)));
-
-
-
+                        ModifyIfNumberIsNotDecimal(netValueTextField);
                     }
+
                     if (!isTheFieldInUse(vatTextField)){
                         double grosValue = Double.parseDouble(grosValueTextField.getText());
                         double vat;
@@ -78,6 +77,7 @@ public class Main extends JFrame{
                         vat = (grosValue * 100 / netValue) - 100;
 
                         vatTextField.setText(String.valueOf(roundNumberTwoDecimals(vat)));
+                        ModifyIfNumberIsNotDecimal(vatTextField);
                     }
 
                     if (!isTheFieldInUse(grosValueTextField)){
@@ -88,34 +88,19 @@ public class Main extends JFrame{
                         grosValue = netValue * (1 +  vat / 100);
 
                         grosValueTextField.setText(String.valueOf(roundNumberTwoDecimals(grosValue)));
+                        ModifyIfNumberIsNotDecimal(grosValueTextField);
                     }
                 }
-
-
-
-
-
-                System.out.println("===========================================");
-                System.out.println("net value :" + netValueDisplayString);
-                System.out.println("vat value :" + vatTaxDisplayString);
-                System.out.println("gross value :" + grosValueDisplayString);
             }
         });
 
         clearButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                System.out.println("clear");
                 netValueTextField.setText("");
                 vatTextField.setText("");
                 grosValueTextField.setText("");
                 netValueTextField.requestFocus();
-
-                netValueTextField.setText("");
-                vatTextField.setText("");
-                grosValueTextField.setText("");
-
-
             }
         });
     }
@@ -139,6 +124,13 @@ public class Main extends JFrame{
         }
         return DisplayString;
     }
+    private static void ModifyIfNumberIsNotDecimal(JTextField pole){
+        String nowy = pole.getText();
+        if(Double.parseDouble(pole.getText()) * 100 % 10 == 0 && !pole.getText().equals("0.00")){
+            nowy += "0";
+            pole.setText(nowy);}
+
+    }
 
     private static boolean isTheFieldInUse (JTextField pole){
         return (!pole.getText().isEmpty() && !pole.getText().equals("0.00"));}
@@ -151,9 +143,8 @@ public class Main extends JFrame{
         netValueDisplayString = pole.getText() + pomocniczyNetValue;
         return netValueDisplayString;}
     private static boolean isCharValid (char element){
-        return (element >= '0' && element <= '9' ||
-                element == '.')
-                ? true : false;
+        return element >= '0' && element <= '9' ||
+                element == '.';
     }
     private static boolean isContainComa(JTextField pole, char wpis){
         boolean isOK = true;
@@ -161,7 +152,7 @@ public class Main extends JFrame{
         if(pole.getText().isEmpty()) isOK = true;
         return isOK ;
     }
-    private static Double roundNumberTwoDecimals (double number){
+    private static double roundNumberTwoDecimals (double number){
         number *= 100;
         number = Math.round(number);
         number /= 100;
@@ -169,7 +160,5 @@ public class Main extends JFrame{
     }
     public static void main(String[] args) {
         Main main = new Main();
-
-
     }
 }
