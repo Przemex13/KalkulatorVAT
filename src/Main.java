@@ -1,7 +1,5 @@
 import javax.swing.*;
-import javax.swing.text.Caret;
 import java.awt.event.*;
-import java.util.Arrays;
 
 public class Main extends JFrame{
     private JPanel mainPanel;
@@ -15,7 +13,6 @@ public class Main extends JFrame{
     private String netValueDisplayString;
     private String vatTaxDisplayString;
     private String grosValueDisplayString;
-    public static boolean[]isTexdFieldInUse = new boolean[3];
     public Main (){
         setTitle("Kalkulator VAT");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -23,145 +20,39 @@ public class Main extends JFrame{
         setVisible(true);
         setContentPane(mainPanel);
 
-
-
 // listeners
         netValueTextField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                char pomocniczyNetValue =' ';
-
-                if (isCharValid(e.getKeyChar())&& isContainComa(netValueTextField, e.getKeyChar())){
-                    pomocniczyNetValue = e.getKeyChar();
-                }else {
-                    e.consume();
-                }
-                netValueDisplayString = netValueTextField.getText() + pomocniczyNetValue;
-
-                if (netValueDisplayString.isEmpty()) {
-                    isTexdFieldInUse[0] = false;
-                }else {
-                    isTexdFieldInUse[0] = true;
-                }
-            }
+            public void keyTyped(KeyEvent e) {netValueDisplayString = KeyListenerService(netValueTextField, e);}
         });
-        netValueTextField.addFocusListener(new FocusListener() {
+        netValueTextField.addFocusListener(new FocusAdapter() {
             @Override
-            public void focusGained(FocusEvent e) {}
-
-            @Override
-            public void focusLost(FocusEvent e) {
-
-                if (netValueTextField.getText().isEmpty()){
-                    netValueDisplayString = "0";
-                    netValueTextField.setText("0.00");
-                    if(netValueTextField.getText().isEmpty()) netValueTextField.setText("0.00");
-                }
-                else{
-                    netValueTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(netValueTextField.getText()))));
-                    netValueDisplayString = netValueTextField.getText();
-                    if(Double.parseDouble(netValueTextField.getText()) == 0) netValueTextField.setText("0.00");
-                    if (Double.parseDouble(netValueTextField.getText()) * 100 % 10 == 0 && !netValueTextField.getText().equals("0.00") ){
-                        String nowy = netValueTextField.getText();
-                        nowy += "0";
-                        netValueTextField.setText(nowy);
-                    }
-                }
-
-                System.out.println("focus lost");
-            }
-        });
-
-
+            public void focusLost(FocusEvent e) {netValueDisplayString = focusLostService( netValueTextField);}});
 
         vatTextField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-
-                char pomocniczyVatTax =' ';
-
-                if (isCharValid(e.getKeyChar()) && isContainComa(vatTextField, e.getKeyChar())){
-                    pomocniczyVatTax = e.getKeyChar();
-                }else {
-                    e.consume();
-                }
-                vatTaxDisplayString = vatTextField.getText() + pomocniczyVatTax;
-            }
+            public void keyTyped(KeyEvent e) {vatTaxDisplayString = KeyListenerService(vatTextField, e);}});
+        vatTextField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {vatTaxDisplayString = focusLostService(vatTextField);}
         });
 
-        vatTextField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {}
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (vatTextField.getText().isEmpty()){
-                    vatTaxDisplayString = "0";
-                    vatTextField.setText("0.00");
-                    if(vatTextField.getText().isEmpty()) vatTextField.setText("0.00");
-                }
-                else{
-                    vatTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(vatTextField.getText()))));
-                    vatTaxDisplayString = vatTextField.getText();
-                    if(Double.parseDouble(vatTextField.getText()) == 0) vatTextField.setText("0.00");
-                    if (Double.parseDouble(vatTextField.getText()) * 100 % 10 == 0 && !vatTextField.getText().equals("0.00") ){
-                        String nowy = vatTextField.getText();
-                        nowy += "0";
-                        vatTextField.setText(nowy);
-                    }
-                }
-            }
-        });
         grosValueTextField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                char pomocniczyGrosValue =' ';
-                if (isCharValid(e.getKeyChar())&& isContainComa(grosValueTextField, e.getKeyChar())){
-                    pomocniczyGrosValue = e.getKeyChar();
-                }else {
-                    e.consume();
-                }
-            }
-        });
-
-        grosValueTextField.addFocusListener(new FocusListener() {
+            public void keyTyped(KeyEvent e){grosValueDisplayString = KeyListenerService(grosValueTextField, e);}});
+        grosValueTextField.addFocusListener(new FocusAdapter() {
             @Override
-            public void focusGained(FocusEvent e) {}
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (grosValueTextField.getText().isEmpty()){
-                    grosValueDisplayString = "0";
-                    grosValueTextField.setText("0.00");
-                    if(grosValueTextField.getText().isEmpty()) grosValueTextField.setText("0.00");
-                }
-                else{
-                    grosValueTextField.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(grosValueTextField.getText()))));
-                    grosValueDisplayString = grosValueTextField.getText();
-                    if(Double.parseDouble(grosValueTextField.getText()) == 0) grosValueTextField.setText("0.00");
-                    if (Double.parseDouble(grosValueTextField.getText()) * 100 % 10 == 0 && !grosValueTextField.getText().equals("0.00") ){
-                        String nowy = grosValueTextField.getText();
-                        nowy += "0";
-                        grosValueTextField.setText(nowy);
-                    }
-                }
-
-            }
-        });
+            public void focusLost(FocusEvent e) {grosValueDisplayString = focusLostService(grosValueTextField);}});
 
         obliczButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-
-
-
-
                 if ((!isTheFieldInUse(netValueTextField) && !isTheFieldInUse(vatTextField) && !isTheFieldInUse(grosValueTextField))||
                         isTheFieldInUse(netValueTextField) && isTheFieldInUse(vatTextField) && isTheFieldInUse(grosValueTextField)){
 
                     CustomsJDialog dialog = new CustomsJDialog();
-                    dialog.netValueMessage.setText( "Aby było możliwe policzenie podatku należy zostawić jedno pole puste.");
+                    dialog.dialogMessage.setText( "Aby było możliwe policzenie podatku należy zostawić jedno pole puste.");
                     dialog.pack();
                     dialog.setVisible(true);
                 }
@@ -228,39 +119,47 @@ public class Main extends JFrame{
             }
         });
     }
-    private static int whichFieldIsUnknown( Main glowneOkno){
-        if (isTheFieldInUse(glowneOkno.netValueTextField)) return 1;
-        if (isTheFieldInUse(glowneOkno.vatTextField)) return 2;
-        if (isTheFieldInUse(glowneOkno.grosValueTextField)) return 3;
-        return 4;
-    }
-    private static boolean isTheFieldInUse (JTextField pole){
+    static String focusLostService(JTextField pole){
+        String DisplayString;
 
-        return (!pole.getText().isEmpty() && !pole.getText().equals("0.00"));
+        if (pole.getText().isEmpty()){
+         DisplayString = "0";
+            pole.setText("0.00");
+            if(pole.getText().isEmpty()) pole.setText("0.00");
+        }
+        else{
+            pole.setText(String.valueOf(roundNumberTwoDecimals(Double.valueOf(pole.getText()))));
+            DisplayString = pole.getText();
+            if(Double.parseDouble(pole.getText()) == 0) pole.setText("0.00");
+            if (Double.parseDouble(pole.getText()) * 100 % 10 == 0 && !pole.getText().equals("0.00") ){
+                String nowy = pole.getText();
+                nowy += "0";
+                pole.setText(nowy);
+            }
+        }
+        return DisplayString;
     }
-    private static boolean controlWhichWindowToFreeze(boolean [] tablica){
-       int trueInt = 0;
-       int falseInt = 0;
-       int nrPusty = -1;
-       for (int i = 0; i < tablica.length; i ++){
-           if (tablica[i] == true) trueInt ++;
-           if (tablica[i] == false) falseInt ++;
-           if(trueInt == 2){
-               nrPusty = Arrays.asList(tablica).indexOf(false);
-           }
-       }
-        return  false;
-    }
-    private boolean isCharValid (char element){
+
+    private static boolean isTheFieldInUse (JTextField pole){
+        return (!pole.getText().isEmpty() && !pole.getText().equals("0.00"));}
+    static String KeyListenerService( JTextField pole, KeyEvent e){
+        char pomocniczyNetValue =' ';
+        String netValueDisplayString;
+        if (isCharValid(e.getKeyChar())&& isContainComa(pole, e.getKeyChar())){
+            pomocniczyNetValue = e.getKeyChar();
+        }else {e.consume();}
+        netValueDisplayString = pole.getText() + pomocniczyNetValue;
+        return netValueDisplayString;}
+    private static boolean isCharValid (char element){
         return (element >= '0' && element <= '9' ||
                 element == '.')
                 ? true : false;
     }
     private static boolean isContainComa(JTextField pole, char wpis){
-            boolean isOK = true;
-            if (pole.getText().indexOf('.') != -1 && wpis == '.') isOK = false;
-            if(pole.getText().isEmpty()) isOK = true;
-            return isOK ;
+        boolean isOK = true;
+        if (pole.getText().indexOf('.') != -1 && wpis == '.') isOK = false;
+        if(pole.getText().isEmpty()) isOK = true;
+        return isOK ;
     }
     private static Double roundNumberTwoDecimals (double number){
         number *= 100;
@@ -268,7 +167,7 @@ public class Main extends JFrame{
         number /= 100;
         return number;
     }
-        public static void main(String[] args) {
+    public static void main(String[] args) {
         Main main = new Main();
 
 

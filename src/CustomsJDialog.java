@@ -5,7 +5,7 @@ public class CustomsJDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
 
-    JLabel netValueMessage;
+    JLabel dialogMessage;
     private JLabel vatTaxMessage;
     private JLabel grosValueMessage;
     private JLabel warningMessage;
@@ -46,9 +46,9 @@ public class CustomsJDialog extends JDialog {
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
+
 
 
 }
